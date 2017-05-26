@@ -10,24 +10,28 @@ At a 10,000 ft view ceph is a unified storage solution that can provide block, o
 
 ---
 
+## RGW
++ Object storage client to the ceph cluster, exposes a S3 & Openstack
+Swift API 
+<p align="center"><img src="img/rgw.png"></p>
+
+--
+
+### RGW
++ Implements Buckets, User Accounts, ACLs 
++ S3 is a very well known Object Storage Rest API, RGW's implementation is similar
++ Heavy ecosystem of s3/swift client tooling can be leveraged against RGW
++ Supports S3 features like websites, object lifecycle, versioning
++ From Jewel we support multisite which allows for data to be replicated across geographies
+ 
+---
+
 ## ElasticSearch
 + At its core a search & analytics engine with a REST api
 + Understand trends & patterns in data
 
 
 ---
-
-## RGW
-+ Object storage client to the ceph cluster, exposes a S3 & Swift API
-<p align="center"><img src="img/rgw.png"></p>
-
----
-### RGW
-+ Also implments user accounts, acls 
-+ heavy ecosystem of s3/swift client tooling can be leveraged against RGW
-+ From Jewel we support multisite which allows geographical redundancy, 
- 
---
 
 ## RGW Metadata search with ES
 ### Motivation
@@ -56,14 +60,14 @@ At a 10,000 ft view ceph is a unified storage solution that can provide block, o
 
 --
 
-
 ## Example Queries
+As an administrator:
 - Average object size in the cluster, by user etc.
+- Queries across user accounts, largest object sizes etc
+As a user:
 - total uploads over the last {week,hour,month...}
-- more interesting usecases in future using object metadata and custom
-  elastic fields
-
-
+- objects with a certain metadata tag
+- the full range of ES type queries are still accessible by connecting to RGW
 
 --
 
