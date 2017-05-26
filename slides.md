@@ -19,17 +19,27 @@ Swift API
 
 ### RGW
 + Implements Buckets, User Accounts, ACLs 
-+ S3 is a very well known Object Storage Rest API, RGW's implementation is similar
-+ Heavy ecosystem of s3/swift client tooling can be leveraged against RGW
++ S3 is a very well known Object Storage Rest API, RGW's
+  implementation is similar
++ Heavy ecosystem of s3/swift client tooling can be leveraged against
+  RGW
 + Supports S3 features like websites, object lifecycle, versioning
-+ From Jewel we support multisite which allows for data to be replicated across geographies
- 
+
+--
+
+### RGW
++ From Jewel we support multisite which allows for data to be
+  replicated across geographies
++ From Kraken we support sync plugins which allow for interesting
+  operations that can work based on object data & metadata
+  notifications
+
 ---
 
 ## ElasticSearch
 + At its core a search & analytics engine with a REST api
 + Understand trends & patterns in data
-
++ Really simple & intuitive REST API for many std. queries
 
 ---
 
@@ -53,8 +63,13 @@ Swift API
 ## Design
 + Built atop of the multisite architecture, where metadata forwarding was already impelmented
 + Requires multiple RGWs and multiple  zones
-+ A zone is made read only and essentially forwards metadata to configured ES cluster, this zone will not service any metadata
++ A zone is made read only and essentially forwards metadata to configured ES cluster, this zone will not service any data
 + essentially gets metadata from other zones and pushes them to ES, deletion is also handled automatically
+
+
+--
+
+## Design
 + We have an attribute mentioning owners for an object and this is used to service user req,.
 + ES unfortunately doesn't have an off the shelf authentication module, so RGWs in other zones can actually query metadata and service user requests (since user auth is handled by RGW)
 
