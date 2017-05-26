@@ -1,19 +1,78 @@
 ## Ceph
- Basic ceph arch diagram slide
-At a 10,000 ft view ceph is a unified storage solution that can provide block, object & file access
 
-* Basic ELK explanation
+![Ceph arch](http://4.bp.blogspot.com/-yupsGmuzduA/Ur2G0gUXaXI/AAAAAAAACV4/ki853OD6ATA/s1600/ceph-arch.png)
+
+---
+
+## ELK
+
+![ELK Stack](img/elk_stack.png)
+
+---
+
+## openSUSE
+
++ filesystems:ceph look into Subprojects
++ security:logging  
+
+It works  
+Leap 42.2, Tumbleweed as well as in Docker container
 
 ---
 
 ## Logging
 
++ *rsyslog*, *syslog-ng* to forward logs to Logstash
++ Ceph has Graylog (GELF) support  
++ store logs for later use
++ analyze logs for Alerting (Kibana, X-Pack)
++ trouble shooting/postmortem analyzing
++ predict issues with [Machine Learning](https://www.elastic.co/products/x-pack/machine-learning)
+
+--
+
+### Forwarding Logs
+
++ you can format your logs before forwarding
++ there is a tutorial for *rsyslog* how to reformat to GELF
++ Logstash has a lot of input modules
+  + `syslog { }`
+  + `graylog { }`
+
+--
+
+### Ceph GELF
+
++ to forward logs in GELF, update ceph.conf
+  + `log_to_graylog = true`
+  + `log_graylog_host = 127.0.0.1`
+  + `log_graylog_port = 12201`
++ restart ceph services
++ or use [DeepSea](https://github.com/suse/deepsea)
+  + has support for custom Ceph config options ([b435612](https://github.com/SUSE/DeepSea/commit/b435612))
+    + `salt '*' state.apply ceph.configuration`
+  + could restart services 
+    + `salt-run state.orch ceph.restart`
+
+--
+
+### Parse and manage
+
++ Logstash provides methods to parse logs
++ simple alerting could be done with Logstash
++ use `grok { }` and other Filters of Logstash
+  + to add fields
+  + better indexing and managing your data
++ [Ceph Logstash example](https://github.com/irq0/ceph-tools/blob/master/logstash/logstash.conf)
+
 ---
 
-## ElasticSearch
-+ At its core a search & analytics engine with a REST api
-+ Understand trends & patterns in data
+## ELK cluster
 
++ use openSUSE ELK for traditional IT
++ use Docker on openSUSE for ELK
+  + there are projects for full cluster (docker-elk, elk-docker)
+  + as well as Kubernetes
 
 ---
 
