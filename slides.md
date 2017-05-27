@@ -91,6 +91,18 @@ Leap 42.2, Tumbleweed as well as in Docker container
 
 --
 
+## ElasticSearch
+> _You know, for search_
+
+- distributed
+- horizontally scalable
+- schemaless
+- speaks REST
+- Easy Configuration without setting your hair on fire
+
+
+--
+
 ### RGW Metadata search with ES
 #### Motivation
 + Objects have metadata associated with them that is often interesting to analyze
@@ -116,7 +128,7 @@ Leap 42.2, Tumbleweed as well as in Docker container
 
 --
 
-![rgw-es](img/rgw-es.svg)
+<img src="img/rgw-es.svg" width=200%></img>
 
 --
 
