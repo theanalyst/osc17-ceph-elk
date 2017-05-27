@@ -77,30 +77,33 @@ Leap 42.2, Tumbleweed as well as in Docker container
 ---
 
 ## RGW
-+ Object storage client to the ceph cluster, exposes a S3 & Swift API
-<p align="center"><img src="img/rgw.png"></p>
++ Object storage client to the ceph cluster, exposes a RESTFUL S3 & Swift API
+
+![rgw](img/rgw.png)
+
 
 ---
+
 ### RGW
-+ Also implments user accounts, acls 
++ implements user accounts, acls, buckets 
 + heavy ecosystem of s3/swift client tooling can be leveraged against RGW
-+ From Jewel we support multisite which allows geographical redundancy, 
- 
++ From Jewel we support multisite which allows geographical redundancy
+
 --
 
-## RGW Metadata search with ES
-### Motivation
+### RGW Metadata search with ES
+#### Motivation
 + Objects have metadata associated with them that is often interesting to analyze
 + Since it is an "object storage" you don't have any traditional filesystems tool at your disposal
-+ No du, df & friends, and either way these are hard on a dist. storage system
++ No `du`, `df` & friends, and either way these are hard on a dist. storage system
 
 --
 
 ### Motivation
 + Some existing support with admin API, however the problems with this:
-- returns specific metadata, not ideal for aggregation
-- no notifications when new objects/buckets/accounts are created
-- also permissions for users to access the admin API is tricky, since admin API was meant for administering
+  - returns specific metadata, not ideal for aggregation
+  - no notifications when new objects/buckets/accounts are created
+  - also permissions for users to access the admin API is tricky, since admin API was meant for administering
 + As an storage administrator you'd be interested in finding out for eg. the top 10 users, average object size etc., no of objects held on a user account etc.
 
 --
@@ -110,11 +113,22 @@ Leap 42.2, Tumbleweed as well as in Docker container
 + Requires multiple RGWs and multiple  zones
 + A zone is made read only and essentially forwards metadata to configured ES cluster, this zone will not service any metadata
 + essentially gets metadata from other zones and pushes them to ES, deletion is also handled automatically
-+ We have an attribute mentioning owners for an object and this is used to service user req,.
-+ ES unfortunately doesn't have an off the shelf authentication module, so RGWs in other zones can actually query metadata and service user requests (since user auth is handled by RGW)
 
 --
 
+![rgw-es](img/rgw-es.svg)
+
+--
+
++ ES unfortunately doesn't have an off the shelf authentication module
++ the ES endpoint shouldn't be made public, accessible to the cluster administrators
++ For normal user requests, RGW itself can authenticate the user, & ensures users don't see other's data¹
++ We have an attribute mentioning owners for an oect and this is used to service user req,.
+
+
+¹ Coming soon to a package repo near you
+
+--
 
 ## Example Queries
 - Average object size in the cluster, by user etc.
