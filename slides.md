@@ -136,26 +136,29 @@ Leap 42.2, Tumbleweed as well as in Docker container
 - more interesting usecases in future using object metadata and custom
   elastic fields
 
-
-
 --
 
 ## Status in OpenSUSE
 - openSUSE Factory: we already have Luminous (Ceph 12.0.2), 42.3, TW
 - devel package: Filesystems:Ceph
 
+--
+
 #Backup Slides
 
+--
+
 ### Multisite 
-+ Disaster Recovery, CDN kind of usecase 
+Disaster Recovery, CDN kind of usecase 
 <section data-background-color="#ffffff">
 <p align="center"><img src="img/zone-sync2.png"></p>
 </section>
 
-
 --
 
 ### Multisite
+
 + Zone -> local ceph cluster, with one or many RGWs, one of the zones needs to be master eg. aws us-east-1
   Data is replicated across zones bidirectionally, metadata always relies on master zone
 + Zonegroups -> collection of zones, zonegroups only share metadata among them
+
