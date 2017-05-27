@@ -136,22 +136,25 @@ Leap 42.2, Tumbleweed as well as in Docker container
 
 ## Design
 + Built atop of the multisite architecture, where metadata forwarding was already impelmented
-+ Requires multiple RGWs and multiple  zones
-+ A zone is made read only and essentially forwards metadata to configured ES cluster, this zone will not service any metadata
-+ essentially gets metadata from other zones and pushes them to ES, deletion is also handled automatically
++ Kraken release of Ceph saw sync plugins feature
++ Requires multiple RGWs and multiple zones
++ A zone is made read only and forwards metadata to configured ES
+  cluster, this zone will not service any metadata deletion is also
+  handled automatically
+
+--
+
+## Caveats
++ ES unfortunately doesn't have an off the shelf authentication module
++ the ES endpoint shouldn't be made public, accessible to the cluster administrators
++ For normal user requests, RGW itself can authenticate the user, & ensures users don't see other's data¹
++ We have an attribute mentioning owners for an object and this is used to service user req,.
+
+¹ Coming soon to a package repo near you
 
 --
 
 <img src="img/rgw-es.svg" width=200%></img>
-
---
-
-+ ES unfortunately doesn't have an off the shelf authentication module
-+ the ES endpoint shouldn't be made public, accessible to the cluster administrators
-+ For normal user requests, RGW itself can authenticate the user, & ensures users don't see other's data¹
-+ We have an attribute mentioning owners for an oect and this is used to service user req,.
-
-¹ Coming soon to a package repo near you
 
 --
 
