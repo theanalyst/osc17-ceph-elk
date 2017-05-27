@@ -85,11 +85,25 @@ Leap 42.2, Tumbleweed as well as in Docker container
 ---
 
 ### RGW
-+ implements user accounts, acls, buckets 
++ A RESTful API access to object storage, a la S3 
++ implements user accounts, acls, buckets
 + heavy ecosystem of s3/swift client tooling can be leveraged against RGW
-+ From Jewel we support multisite which allows geographical redundancy
 
 --
+
+### RGW
++ Supports a lot of S3 like features
+  - Multipart uploads
+  - Object Versioning
+  - torrents
+  - lifecycle
+  - encryption
+  - compression
+  - static websites
+  - metadata search...
++ From Jewel we support multisite which allows geographical redundancy
+
+---
 
 ## ElasticSearch
 > _You know, for search_
@@ -137,13 +151,73 @@ Leap 42.2, Tumbleweed as well as in Docker container
 + For normal user requests, RGW itself can authenticate the user, & ensures users don't see other's data¹
 + We have an attribute mentioning owners for an oect and this is used to service user req,.
 
-
 ¹ Coming soon to a package repo near you
+
+--
+
+Eg. metadata
+
+```json
+{
+        "_index" : "rgw-gold-ee5863d6",
+        "_type" : "object",
+        "_id" : "34137443-8592-48d9-8ca7-160255d52ade.34137.1:foo:null",
+        "_score" : 1.0,
+        "_source" : {
+          "bucket" : "testtags213",
+          "name" : "foo",
+          "instance" : "null",
+          "versioned_epoch" : 0,
+          "owner" : {
+            "id" : "user1",
+            "display_name" : "user1"
+          },
+          "permissions" : [
+            "user1"
+          ],
+          "meta" : {
+            "size" : 7,
+            "mtime" : "2017-05-04T12:54:16.462Z",
+            "etag" : "7ac66c0f148de9519b8bd264312c4d64"
+          }
+        }
+      }
+```
 
 --
 
 ## Example Queries
 - Average object size in the cluster, by user etc.
+
+```json
+curl -XPOST 'localhost:9200/rgw-gold-ee5863d6/_search?size=0&pretty' -H 'Content-Type: application/json' -d'
+{
+    "aggs" : {
+        "avg_size" : { "avg" : { "field" : "meta.size" } }
+    }
+}'
+# Response  from cluster
+{
+  "took" : 22,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 10,
+    "successful" : 10,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 22,
+    "max_score" : 0.0,
+    "hits" : [ ]
+  },
+  "aggregations" : {
+    "avg_size" : {
+      "value" : 177.72727272727272
+    }
+  }
+}
+```
+
 - total uploads over the last {week,hour,month...}
 - more interesting usecases in future using object metadata and custom
   elastic fields
