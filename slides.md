@@ -225,11 +225,22 @@ curl -XPOST 'localhost:9200/rgw-gold-ee5863d6/_search?size=0&pretty' -H 'Content
 - more interesting usecases in future using object metadata and custom
   elastic fields
 
---
+---
 
 ## Status in OpenSUSE
 - openSUSE Factory: we already have Luminous (Ceph 12.0.2), 42.3, TW
 - devel package: Filesystems:Ceph
+
+--
+
+## Contribute
+
+- wiki: https://en.opensuse.org/openSUSE:Ceph
+- [opensuse-ceph@opensuse.org](mailto:opensuse-ceph@opensuse.org) - Discussion of Ceph specifically on openSUSE related queries
+- https://ceph.com/IRC/ - Ceph upstream community mailing lists and IRC channels
+- http://lists.suse.com/mailman/listinfo/deepsea-users - DeepSea upstream mailing list. 
+- https://groups.google.com/forum/#!forum/openattic-users - openATTIC upstream mailing list. 
+- https://github.com/ceph/ceph - upstream Ceph sources 
 
 --
 
