@@ -189,17 +189,20 @@ Eg. metadata
 
 --
 
-## Example Queries
-- Average object size in the cluster, by user etc.
-
+### Query
 ```json
-curl -XPOST 'localhost:9200/rgw-gold-ee5863d6/_search?size=0&pretty' -H 'Content-Type: application/json' -d'
+curl -XPOST 'localhost:9200/rgw-gold/_search?size=0&pretty' -d
 {
     "aggs" : {
         "avg_size" : { "avg" : { "field" : "meta.size" } }
     }
-}'
-# Response  from cluster
+}```
+
+--
+
+### Response
+
+```json
 {
   "took" : 22,
   "timed_out" : false,
@@ -218,12 +221,7 @@ curl -XPOST 'localhost:9200/rgw-gold-ee5863d6/_search?size=0&pretty' -H 'Content
       "value" : 177.72727272727272
     }
   }
-}
-```
-
-- total uploads over the last {week,hour,month...}
-- more interesting usecases in future using object metadata and custom
-  elastic fields
+} ```
 
 ---
 
